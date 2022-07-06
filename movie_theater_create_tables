@@ -1,0 +1,38 @@
+-- Create customer table
+CREATE TABLE IF NOT EXISTS customer (
+    customer_id SERIAL PRIMARY KEY, 
+    first_name VARCHAR(255),
+    last_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS ticket (
+    ticket_id SERIAL PRIMARY KEY,
+    ticket_price INTEGER NOT NULL,
+    showtime DATE DEFAULT CURRENT_DATE,
+    customer_id INTEGER NOT NULL,
+    movie_id INTEGER NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (movie_id) REFERENCES movie(movie_id)
+);
+
+CREATE TABLE IF NOT EXISTS movie (
+    movie_id SERIAL PRIMARY KEY,
+    movie_title VARCHAR(255),
+    movie_length VARCHAR(255),
+    movie_director VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS concession_purchase (
+    purchase_id SERIAL PRIMARY KEY,
+    customer_id INTEGER NOT NULL,
+    concession_id INTEGER NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+    FOREIGN KEY (concession_id) REFERENCES concession_inventory(concession_id)
+);
+
+CREATE TABLE IF NOT EXISTS concession_inventory (
+    concession_id SERIAL PRIMARY KEY,
+    name_of_item VARCHAR(255),
+    concession_price FLOAT,
+    stock_qty INTEGER
+);
